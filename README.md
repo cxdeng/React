@@ -6,8 +6,12 @@
 * 02-Virtual DOM
   - Using JSX
   - Using JavaScript
+* 03-JavaScript XML
+  - Rules of JavaScript XML
+  - JSX Practice
+  
 
-## Hello React
+## 01-Hello React
 ### Introduce React Library
 ```javascript
 <!-- Introduce React Core Library -->
@@ -33,7 +37,7 @@
 </body>
 ```
 
-## Create Virtual DOM
+## 02-Create Virtual DOM
 ### Using JSX to create virtual DOM
 ```javascript
 // 1. Create a virtual DOM using JSX
@@ -46,7 +50,7 @@ const VDOM = (
 ReactDOM.render(VDOM, document.querySelector('#test'))
 ```
 
-### Using JavaScript to create virtual DOm
+### Using JavaScript to create virtual DOM
 ```javascript
  // 1. Create a virtual DOM using JavaScript
 const VDOM = React.createElement("h1", {id:"title", class:"title-class"}, React.createElement("span", {}, "Hello, React"))
@@ -90,7 +94,7 @@ In React, the Virtual DOM and Real DOM are two core concepts with distinct diffe
 Through the Virtual DOM, React achieves efficient updates to the DOM, preventing unnecessary real DOM manipulations, thereby enhancing the performance of web applications.
 
 
-## Grammar Rules of JavaScript XML
+## 03-Grammar Rules of JavaScript XML
 ```javascript
 const myId = 'title'
 const myData = 'Hello, React'
@@ -117,5 +121,32 @@ ReactDOM.render(VDOM, document.querySelector('#test'))
   1. If it starts with a lowercase letter, the tag is converted into an element with the same name in HTML. If there is no corresponding element with the same name in HTML, an error is thrown.
   2. If it starts with an uppercase letter, React will render the corresponding component. If the component is not defined, an error is thrown.
 
-### Page Display
+#### Page Display
 ![Page Display of Rules of JSX](./Images/Rules%20of%20JSX.jpg)
+
+### JavaScript XML Practice
+```javascript
+const title = 'JavaScript XML Practice'
+const data = ['React', 'Angular', 'Vue']
+
+// 1. Create a virtual DOM
+const VDOM = (
+    <div>
+        <h1>{title}</h1>
+        <ul>
+            {
+                // There is a problem with the index here
+                data.map((item, index) => {
+                    return <li key={index}>{item}</li>
+                })
+            }
+        </ul>
+    </div>
+)
+
+// 2. Render the virtual DOM to the page
+ReactDOM.render(VDOM, document.querySelector('#test'))
+```
+
+#### Page Display
+![Page Display of The Practice](./Images/JSX%20Practice.jpg)
