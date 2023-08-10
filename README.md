@@ -88,3 +88,34 @@ In React, the Virtual DOM and Real DOM are two core concepts with distinct diffe
 * **Virtual DOM**: In React, you usually don't interact with the Virtual DOM directly; instead, you declare the state of the UI, and React takes care of managing the Virtual DOM.
 
 Through the Virtual DOM, React achieves efficient updates to the DOM, preventing unnecessary real DOM manipulations, thereby enhancing the performance of web applications.
+
+
+## Grammar Rules of JavaScript XML
+```javascript
+const myId = 'title'
+const myData = 'Hello, React'
+
+// 1. Create a virtual DOM using JavaScript
+const VDOM = (
+    <h1 className="title" id="{myId}">
+        <span style={{fontWeight:'bolder'}}>{myData}</span>
+    </h1>
+)
+
+// 2. Render the virtual DOM to the page
+ReactDOM.render(VDOM, document.querySelector('#test'))
+```
+
+### Rules of JavaScript XML
+* When defining the Virtual DOM, do not use quotes.
+* Use {} to embed JavaScript expressions within tags.
+* Do not use the class keyword to specify class names for styles; instead, use the keyword className.
+* For inline styles, use the format style={{key:value}}.
+* The Virtual DOM can only have one root tag.
+* Tags must be closed.
+* For the first character of a tag:
+  1. If it starts with a lowercase letter, the tag is converted into an element with the same name in HTML. If there is no corresponding element with the same name in HTML, an error is thrown.
+  2. If it starts with an uppercase letter, React will render the corresponding component. If the component is not defined, an error is thrown.
+
+### Page Display
+![Page Display of Rules of JSX](./Images/Rules%20of%20JSX.jpg)
