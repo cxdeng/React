@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_UsingJS.html</title>
+</head>
+
+<body>
+    <!-- 准备好一个“容器” -->
+    <div id="test"></div>
+
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../React.JS/react-dom.development.js"></script>
+
+    <script type="text/javascript">
+        // 1. 使用JavaScript创建虚拟DOM
+        const VDOM = React.createElement("h1", {id:"title", class:"title-class"}, React.createElement("span", {}, "Hello, React"))
+        // 2. 渲染虚拟DOM到页面
+        ReactDOM.render(VDOM, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>
