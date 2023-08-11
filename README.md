@@ -8,7 +8,7 @@
   - Using JavaScript
 * 03-JavaScript XML
   - Rules of JavaScript XML
-  - JSX Practice
+  - practice
   
 
 ## 01-Hello React
@@ -150,3 +150,19 @@ ReactDOM.render(VDOM, document.querySelector('#test'))
 
 #### Page Display
 ![Page Display of The Practice](./Images/JSX%20Practice.jpg)
+
+
+## 04-Define React Component
+### Functional Component
+```javascript
+// 1. Create a functional component of React
+function MyComponent() {
+    return <h2>I'm a simple component defined with a function</h2>
+}
+data.map(())
+// Render the component to the page
+ReactDOM.render(<MyComponent/>, document.querySelector('#test'))
+```
+After executing ReactDOM.render()
+1. React parses the component tag and finds the MyComponent component.
+2. It notices the component is defined using a function. It then calls that function, converts the returned virtual DOM to real DOM, and then displays it on the page.

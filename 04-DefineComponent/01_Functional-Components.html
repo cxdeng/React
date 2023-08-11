@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Functional-Components.html</title>
+</head>
+
+<body>
+    <!-- 准备好一个“容器” -->
+    <div id="test"></div>
+
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../React.JS/babel.min.js"></script>
+
+    <script type="text/babel">
+        /* 
+            执行了ReactDOM.render()之后,
+            1. React解析组件标签,找到MyComponent组件
+            2. 发现组件是使用函数定义的,随后调用该函数,将返回的虚拟DOM转为真实DOM,随后呈现在页面中
+        */
+
+        // 1. 创建函数式组件
+        function MyComponent() {
+            return <h2>I'm a simple component defined with a function</h2>
+        }
+
+        // 渲染组件到页面
+        ReactDOM.render(<MyComponent/>, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>
