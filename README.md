@@ -125,7 +125,7 @@ ReactDOM.render(VDOM, document.querySelector('#test'))
 ![Page Display of Rules of JSX](./Images/Rules%20of%20JSX.jpg)
 
 ### JavaScript XML Practice
-```javascript
+```jsx
 const title = 'JavaScript XML Practice'
 const data = ['React', 'Angular', 'Vue']
 
@@ -159,10 +159,28 @@ ReactDOM.render(VDOM, document.querySelector('#test'))
 function MyComponent() {
     return <h2>I'm a simple component defined with a function</h2>
 }
-data.map(())
-// Render the component to the page
+// 2. Render the component to the page
 ReactDOM.render(<MyComponent/>, document.querySelector('#test'))
 ```
 After executing ReactDOM.render()
 1. React parses the component tag and finds the MyComponent component.
 2. It notices the component is defined using a function. It then calls that function, converts the returned virtual DOM to real DOM, and then displays it on the page.
+
+### Class Component
+```jsx
+// 1. Create a class component of React
+class MyComponent extends React.Component {
+    render() {
+        return (
+            <h2>I'm a complex component defined with a class</h2>
+        )
+    }
+}
+
+// 2. Render the component to the page
+ ReactDOM.render(<MyComponent/>, document.querySelector('#test'))
+```
+After executing ReactDOM.render()
+1. React parses the component tag and finds the MyComponent component.
+2. It was found that the component is defined using a class. Subsequently, an instance of this class is created, and the render method on its prototype is invoked through this instance.
+3. Convert the returned virtual DOM to the actual DOM, and then render it on the page.

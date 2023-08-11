@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Class-Components.html</title>
+</head>
+
+<body>
+    <!-- 准备好一个“容器” -->
+    <div id="test"></div>
+
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../React.JS/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 创建类式组件
+        class MyComponent extends React.Component {
+            render() {
+                return (
+                    <h2>I'm a complex component defined with a class</h2>
+                )
+            }
+        }
+
+        // 渲染组件到页面
+        ReactDOM.render(<MyComponent/>, document.querySelector('#test'))
+
+        /* 
+            执行了ReactDOM.render之后,
+            1. React解析组件标签,找到了MyComnent标签
+            2. 发现组件是使用类定义的,随后创建该类的实例,并通过该实例调用原型上的render方法
+            3. 将返回的虚拟DOM转为真实的DOM,随后呈现在页面上
+        */
+    </script>
+</body>
+
+</html>
