@@ -12,6 +12,10 @@
 * 04-The Definition of Component
   - Functional Component
   - Class Component
+* 05-Three Attributes of Component Instance
+  - Standard Form of Coding
+  - Simple Form of Coding
+  - Summary of state
   
 
 ## 01-Hello React
@@ -230,7 +234,46 @@ ReactDOM.render(<Weather />, document.querySelector('#test'))
 4. Since func is used as the callback function of onClick, func is not called through the instance, but called directly.
 5. The 'state' cannot be modified directly, it needs to be updated using the built-in API setState(), and the update is a kind of merger rather than replacement
 
-#### Display
+#### Page Display
 ![Suny](./Images/Suny.jpg)  ![Windy](./Images/Windy.jpg)
 
 Every time the element is clicked, React will re-render the component to the page
+
+
+### Simple Encoding of state
+```jsx
+// 1. Create a class component of React
+class Weather extends React.Component {
+
+    render() {
+        return (
+            <h1 onClick={this.changeWeather}>
+                It's {this.state.isSuny ? 'suny' : 'windy'} today
+            </h1>
+        )
+    }
+
+    // Initialization of state
+    state = { isSuny: true }
+
+    // Custom method - use the form of assignment statement + arrow function.
+    changeWeather = () => {
+        const isSuny = this.state.isSuny
+        this.setState({ isSuny: !isSuny })
+    }
+
+}
+
+// 2. Render the component to the page
+ReactDOM.render(<Weather />, document.querySelector('#test'))    
+```
+
+
+### Summary of state
+1. 'state' is the most important attribute of the component object, and its value is an object (a combination of multiple key-value pairs).
+2. Components are referred to as "state machines." By updating the component's state, the corresponding page display is updated (re-rendering the component).
+3. 'this' in the render method in the component is the component instance object.
+4. How to solve the 'this' of the custom method in the component is undefined
+   - Mandatory binding 'this': through the bind() of the function object.
+   - Arrow function.
+5. State data: Cannot be modified or updated directly in the 'state'

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_this.html</title>
+</head>
+<body>
+    
+    <script>
+        class Demo{
+            constructor(){
+                this.value = 'Hello, World'
+            }
+
+            dispaly(){
+                console.log(this.value);
+            }
+        }
+
+        const demoInstance = new Demo()
+        demoInstance.dispaly()
+
+        const demoInstance02 = new Demo()
+        const func = demoInstance02.dispaly
+
+        // TypeError: Cannot read property 'value' of undefined
+        func()
+    </script>
+</body>
+</html>
