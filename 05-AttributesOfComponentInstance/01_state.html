@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_state.html</title>
+    <style>
+        h1 {
+            cursor: pointer;
+        }
+
+        #test {
+            text-align: center;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 准备好一个“容器” -->
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../React.JS/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 1. 创建组件
+        class Weather extends React.Component {
+            constructor(props) {
+                super(props)
+                // 初始化状态
+                this.state = { isSuny: true }
+                // 解决changeWeather函数中，this指向的问题
+                this.func = this.changeWeather.bind(this)
+            }
+
+            render() {
+                return (
+                    <h1 onClick={this.func}>It's {this.state.isSuny ? 'suny' : 'windy'} today</h1>
+                )
+            }
+
+            /* 
+                类中定义的方法自动开启了严格模式
+                由于func是作为onClick的回调函数，所以func不是通过实例调用的，而是直接调用的
+            */
+            changeWeather() {
+                /* 
+                    state不能直接修改，需要使用内置API setState更新，且更新是一种合并而不是替换
+                */
+                const isSuny = this.state.isSuny
+                this.setState({ isSuny: !isSuny })
+                console.log(!this.state.isSuny);
+            }
+        }
+
+        // 2. 渲染组件
+        ReactDOM.render(<Weather />, document.querySelector('#test'))        
+    </script>
+</body>
+
+</html>

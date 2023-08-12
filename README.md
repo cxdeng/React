@@ -9,6 +9,9 @@
 * 03-JavaScript XML
   - Rules of JavaScript XML
   - practice
+* 04-The Definition of Component
+  - Functional Component
+  - Class Component
   
 
 ## 01-Hello React
@@ -184,3 +187,50 @@ After executing ReactDOM.render()
 1. React parses the component tag and finds the MyComponent component.
 2. It was found that the component is defined using a class. Subsequently, an instance of this class is created, and the render method on its prototype is invoked through this instance.
 3. Convert the returned virtual DOM to the actual DOM, and then render it on the page.
+
+## 05-Three Attributes of Component Instance
+### state
+```jsx
+// Create a class component of React
+class Weather extends React.Component {
+    constructor(props) {
+        super(props)
+        // Initialization state
+        this.state = { isSuny: true }
+        // Solve the problem pointed to by 'this' in the changeWeather function
+        this.func = this.changeWeather.bind(this)
+    }
+
+    render() {
+        return (
+            <h1 onClick={this.func}>It's {this.state.isSuny ? 'suny' : 'windy'} today</h1>
+        )
+    }
+
+    /* 
+        The methods defined in the class automatically enable strict mode.
+        Since func is used as the callback function of onClick, func is not called through the instance, but called directly.
+    */
+    changeWeather() {
+        /* 
+            The 'state' cannot be modified directly, it needs to be updated using the built-in API setState(), and the update is a kind of merger rather than replacement
+        */
+        const isSuny = this.state.isSuny
+        this.setState({ isSuny: !isSuny })
+        console.log(!this.state.isSuny);
+    }
+}
+
+// Render the component to the page
+ReactDOM.render(<Weather />, document.querySelector('#test'))  
+```
+1. Initialization state: ```this.state = { key: value }```
+2. Solve the problem pointed to by 'this' in the changeWeather function: ```(this.func = this.func.bind(this))```
+3. The methods defined in the class automatically enable strict mode.
+4. Since func is used as the callback function of onClick, func is not called through the instance, but called directly.
+5. The 'state' cannot be modified directly, it needs to be updated using the built-in API setState(), and the update is a kind of merger rather than replacement
+
+#### Display
+![Suny](./Images/Suny.jpg)  ![Windy](./Images/Windy.jpg)
+
+Every time the element is clicked, React will re-render the component to the page
