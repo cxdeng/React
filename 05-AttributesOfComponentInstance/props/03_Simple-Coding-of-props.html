@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>02_propsOfRestriction.html</title>
+    <title>03_Simple-Coding-of-props.html</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
         class Person extends React.Component {
 
             render() {
-                console.log(this);
+                this.props.speak()
                 return (
                     <ul>
                         <li>Name: {this.props.name}</li>
@@ -32,31 +32,32 @@
                     </ul>
                 )
             }
+
+            // 对组件标签的属性进行类型和必要性的限制
+            static propTypes = {
+                // 限制name属性为字符串类型且是必须传入的属性
+                name: PropTypes.string.isRequired,
+                // 限制gender属性为字符串类型
+                gender: PropTypes.string,
+                // 限制age属性为数字类型
+                age: PropTypes.number,
+                // 限制doSpeak属性为函数类型
+                doSpeak: PropTypes.func
+            }
+
+            // 指定标签属性的默认值
+            static defaultProps = {
+                // 指定gender属性的默认值为 'Male'
+                gender: "Male"
+            }
+
         }
 
-        // 对组件标签的属性进行类型和必要性的限制
-        Person.propTypes = {
-            // 限制name属性为字符串类型且是必须传入的属性
-            name: PropTypes.string.isRequired,
-            // 限制gender属性为字符串类型
-            gender: PropTypes.string,
-            // 限制age属性为数字类型
-            age: PropTypes.number,
-            // 限制doSpeak属性为函数类型
-            doSpeak: PropTypes.func
-        }
-
-        // 指定标签属性的默认值
-        Person.defaultProps = {
-            // 指定gender属性的默认值为 'Male'
-            gender: "Male"
-        }
-
-        function doSpeak(){
+        function doSpeak() {
             console.log("doSpeak function");
         }
 
-        ReactDOM.render(<Person name="Olivia" gender="Male" age={19} speak="doSpeak" />, document.querySelector('#test1'))
+        ReactDOM.render(<Person name="Olivia" gender="Male" age={19} speak={doSpeak} />, document.querySelector('#test1'))
 
     </script>
 </body>

@@ -366,7 +366,7 @@ Person.propTypes = {
     // Restrict the 'age' attribute to a numeric type
     age: PropTypes.number,
     // Restrict 'doSpeak' attribute to function type
-    doSpeak: PropTypes.func
+    speak: PropTypes.func
 }
 
 // Specifies the default value for a label attribute
@@ -379,9 +379,46 @@ function doSpeak(){
     console.log("doSpeak function");
 }
 
-ReactDOM.render(<Person name="Olivia" gender="Male" age={19} speak="doSpeak" />, document.querySelector('#test1'))
+ReactDOM.render(<Person name="Olivia" gender="Male" age={19} speak={doSpeak} />, document.querySelector('#test1'))
 
 ```
 
 1. Use the PropTypes object to limit the necessity of property types and attributes. When restricting the type of an attribute to a function, use func as a keyword.
 2. Use defaultProps to specify default values for properties.
+
+#### Simple Form of Coding
+```jsx
+class Person extends React.Component {
+
+    render() {
+        // Call the function passed in through the props attribute
+        this.props.speak()
+        return (
+            <ul>
+                <li>Name: {this.props.name}</li>
+                <li>Gender: {this.props.gender}</li>
+                <li>Age: {this.props.age}</li>
+            </ul>
+        )
+    }
+
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        gender: PropTypes.string,
+        age: PropTypes.number,
+        doSpeak: PropTypes.func
+    }
+
+    static defaultProps = {
+        gender: "Male"
+    }
+
+}
+
+function doSpeak() {
+    console.log("doSpeak function");
+}
+
+ReactDOM.render(<Person name="Olivia" gender="Male" age={19} speak={doSpeak} />, document.querySelector('#test1'))
+
+```
