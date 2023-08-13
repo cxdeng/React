@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_SpreadOperator.html</title>
+</head>
+
+<body>
+
+    <script>
+        let arr1 = [1, 2, 3, 4]
+        console.log(...arr1);
+
+        let arr2 = [2, 4, 6, 8, 10]
+
+        // 连接数组
+        let arr3 = [...arr1, ...arr2]
+        console.log(arr3);
+
+        // 函数传参
+        function sum(...number) {
+            return number.reduce((preVal, curVal) => {
+                return preVal + curVal
+            })
+        }
+        console.log(sum(1, 2, 3, 4, 5));
+
+        /* 
+            展开运算符不能展开一个对象
+        */
+        let person1 = { name: "Isabella", age: 21 }
+        // error
+        //    console.log(...person1);
+
+        // 复制对象
+        let person2 = { ...person1 }
+        person1.age = 22
+        console.log(person1);
+        console.log(person2);
+
+        let person3 = { ...person1, age: '23', gender: "Male" }
+        console.log(person3);
+    </script>
+</body>
+
+</html>

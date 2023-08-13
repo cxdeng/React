@@ -13,9 +13,13 @@
   - Functional Component
   - Class Component
 * 05-Three Attributes of Component Instance
-  - Standard Form of Coding
-  - Simple Form of Coding
-  - Summary of state
+  * state
+    - Use of state
+    - Simple Form of Coding
+    - Summary of state
+  * props
+    - Use of props
+    - Restriction of props
   
 
 ## 01-Hello React
@@ -194,6 +198,7 @@ After executing ReactDOM.render()
 
 ## 05-Three Attributes of Component Instance
 ### state
+#### Use of state
 ```jsx
 // Create a class component of React
 class Weather extends React.Component {
@@ -234,13 +239,13 @@ ReactDOM.render(<Weather />, document.querySelector('#test'))
 4. Since func is used as the callback function of onClick, func is not called through the instance, but called directly.
 5. The 'state' cannot be modified directly, it needs to be updated using the built-in API setState(), and the update is a kind of merger rather than replacement
 
-#### Page Display
+##### Page Display
 ![Suny](./Images/Suny.jpg)  ![Windy](./Images/Windy.jpg)
 
 Every time the element is clicked, React will re-render the component to the page
 
 
-### Simple Encoding of state
+#### Simple Encoding of state
 ```jsx
 // 1. Create a class component of React
 class Weather extends React.Component {
@@ -269,7 +274,7 @@ ReactDOM.render(<Weather />, document.querySelector('#test'))
 ```
 
 
-### Summary of state
+#### Summary of state
 1. 'state' is the most important attribute of the component object, and its value is an object (a combination of multiple key-value pairs).
 2. Components are referred to as "state machines." By updating the component's state, the corresponding page display is updated (re-rendering the component).
 3. 'this' in the render method in the component is the component instance object.
@@ -277,3 +282,106 @@ ReactDOM.render(<Weather />, document.querySelector('#test'))
    - Mandatory binding 'this': through the bind() of the function object.
    - Arrow function.
 5. State data: Cannot be modified or updated directly in the 'state'
+
+
+### props
+#### Use of props
+```jsx
+class Person extends React.Component {
+
+    render() {
+        console.log(this);
+        return (
+            <ul>
+                <li>Name: {this.props.name}</li>
+                <li>Gender: {this.props.gender}</li>
+                <li>Age: {this.props.age}</li>
+            </ul>
+        )
+    }
+}
+
+// method 1
+ReactDOM.render(<Person name="Olivia" gender="Male" age={19} />, document.querySelector('#test1'))
+ReactDOM.render(<Person name="Noah" gender="Male" age="20" />, document.querySelector('#test2'))
+ReactDOM.render(<Person name="Aiden" gender="Male" age="21" />, document.querySelector('#test3'))
+
+// method 2
+const data = { name: "Sophia", gender: "female", age: "22" }
+// React and Babel allow the use of the spread operator to expand an object, but it can only be used in tag attributes.
+ReactDOM.render(<Person {...data} />, document.querySelector('#test4'))
+```
+
+In React, props (short for "properties") are a special object used to pass data and functions from one component to another. They provide inputs for components, allowing for flexibility in reuse and configuration. Data flows unidirectionally through props, typically from parent to child components. Moreover, props are read-only, meaning a component cannot modify the props it receives.
+
+1. **Definition**: In React, props stand for "properties." They are a mechanism for passing data from parent to child components.
+
+2. **Passing Data**: When defining a child component within a parent component's render method (or return statement in functional components), you can pass down values or functions as props. For example, <ChildComponent someProp={value} /> passes a someProp prop to ChildComponent with the value of value.
+
+3. **Accessing in Child Component**: Within the child component, props can be accessed as an object. For example, if you pass a prop named someProp, you can access it in the child component as this.props.someProp in class components or props.someProp in functional components.
+
+4. **Read-Only Nature**: It's crucial to understand that props are read-only. This means that a child component should not modify the props it receives.
+
+5. **Passing Functions as Props**: To allow child components to communicate back to their parent, functions can be passed down as props. When the child invokes this function, it can effectively send data back to the parent or notify it of events.
+
+6. **Default Props**: Components can define default values for props using the defaultProps property. This ensures that even if a particular prop isn't provided by the parent, the component will still have a value to use.
+
+7. **Props Validation**: To ensure that components receive the right type of data, you can use propTypes. This allows you to specify the data type of each prop and whether it's required or optional.
+
+8. **Special Prop - children**: React has a special prop named children that's used to pass elements or components as the content between the opening and closing tags of a component. For instance, in <ParentComponent><ChildComponent /></ParentComponent>, ChildComponent is passed to ParentComponent as the children prop.
+
+9. **Destructuring Props**: In functional components, it's common to destructure props in the parameter list for cleaner and more concise code. For example, instead of (props) => {...}, you might see ({ someProp, anotherProp }) => {...}.
+
+In summary, props in React provide a robust mechanism for parent-child communication, ensuring that components remain reusable and maintainable by keeping them unaware of the overall app's intricate state management. They allow for a clear, top-down data flow structure, which is central to React's component-based architecture.
+
+#### Restriction of props
+Introduce React Library - prop-types.js
+```html
+<!-- Import 'prop-types.js' to impose restrictions on component tag attributes. -->
+<script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+```
+Example
+```jsx
+class Person extends React.Component {
+
+    render() {
+        console.log(this);
+        return (
+            <ul>
+                <li>Name: {this.props.name}</li>
+                <li>Gender: {this.props.gender}</li>
+                <li>Age: {this.props.age}</li>
+            </ul>
+        )
+    }
+}
+
+// Restrict the type and necessity of the attributes of the component tag
+Person.propTypes = {
+    // Restrict the 'name' attribute to a string type and must be passed in
+    name: PropTypes.string.isRequired,
+    // Restrict the 'gender' attribute to a string type
+    gender: PropTypes.string,
+    // Restrict the 'age' attribute to a numeric type
+    age: PropTypes.number,
+    // Restrict 'doSpeak' attribute to function type
+    doSpeak: PropTypes.func
+}
+
+// Specifies the default value for a label attribute
+Person.defaultProps = {
+    // Specifies that the default value for the 'gender' attribute is 'Male'
+    gender: "Male"
+}
+
+function doSpeak(){
+    console.log("doSpeak function");
+}
+
+ReactDOM.render(<Person name="Olivia" gender="Male" age={19} speak="doSpeak" />, document.querySelector('#test1'))
+
+```
+
+1. Use the PropTypes object to limit the necessity of property types and attributes. When restricting the type of an attribute to a function, use func as a keyword.
+2. Use defaultProps to specify default values for properties.

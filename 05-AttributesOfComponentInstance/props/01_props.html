@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_props.html</title>
+</head>
+
+<body>
+    <!-- 准备好一个“容器” -->
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <div id="test4"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Person extends React.Component {
+
+            render() {
+                console.log(this);
+                return (
+                    <ul>
+                        <li>Name: {this.props.name}</li>
+                        <li>Gender: {this.props.gender}</li>
+                        <li>Age: {this.props.age}</li>
+                    </ul>
+                )
+            }
+        }
+
+        // method 1
+        ReactDOM.render(<Person name="Olivia" gender="Male" age={19} />, document.querySelector('#test1'))
+        ReactDOM.render(<Person name="Noah" gender="Male" age="20" />, document.querySelector('#test2'))
+        ReactDOM.render(<Person name="Aiden" gender="Male" age="21" />, document.querySelector('#test3'))
+
+        // method 2
+        const data = { name: "Sophia", gender: "female", age: "22" }
+        // React和Babel允许使用展开运算符展开一个对象，但只能在标签属性中使用
+        ReactDOM.render(<Person {...data} />, document.querySelector('#test4'))
+
+
+    </script>
+</body>
+
+</html>
