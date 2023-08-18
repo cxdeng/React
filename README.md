@@ -422,3 +422,6 @@ function doSpeak() {
 ReactDOM.render(<Person name="Olivia" gender="Male" age={19} speak={doSpeak} />, document.querySelector('#test1'))
 
 ```
+Generally, in React, the constructor is used for the following two cases:
+1. Initializing the internal state by assigning an object to this.state.
+2. Binding instances for event handling functions.

@@ -21,6 +21,18 @@
 
     <script type="text/babel">
         class Person extends React.Component {
+            /* 
+                通常，在React中，构造函数仅用于以下两种情况:
+                    1. 通过给this.state赋值对象来初始化内部state
+                    2. 为事件处理函数绑定实例
+            */
+            constructor(props){
+                /* 
+                    构造器是否接收props，是否传递给super()，
+                    取决于是否希望在构造器中通过this访问props
+                */
+                super(props)
+            }
 
             render() {
                 this.props.speak()
