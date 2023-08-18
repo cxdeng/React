@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_refs-string.html</title>
+    <style>
+        #test div input {
+            height: 30px;
+            width: 250px;
+            margin: 10px;
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+
+        #test div button {
+            width: 70px;
+            height: 30px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid black;
+            background-color: tomato;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        class Demo extends React.Component {
+
+            render() {
+                console.log(this)
+                return (
+                    <div>
+                        <input ref="input1" type="text" placeholder="Click the button to prompt the data" />
+                        <button onClick={this.showData1}>Click</button><br />
+                        <input ref="input2" onBlur={this.showData2} type="text" placeholder="Lost focus prompt data" /><br />
+                    </div>
+                )
+            }
+
+            showData1 = () => {
+                console.log(this)
+                // output: <input type="text" placeholder="Click the button to prompt the data">
+                console.log(this.refs.input1)
+                console.log(this.refs.input1.value)
+            }
+
+            
+            showData2 = () => {
+                console.log(this)
+                // output: <input type="text" placeholder="Lost focus prompt data">
+                console.log(this.refs.input2)
+                console.log(this.refs.input2.value)
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>

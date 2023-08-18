@@ -22,6 +22,8 @@
     - Restriction of props
     - Simple Form of Coding
     - Props in Functional Components
+  * refs
+    - ref as a string
   
 
 ## 01-Hello React
@@ -469,3 +471,48 @@ ReactDOM.render(<Person name="Olivia" gender="Male" age={19} />, document.queryS
 Using props in functional components
 1. "propTypes" and "defaultProps" cannot be written within the body of a functional component, they can only be defined externally.
 2.  'props' is also an object in functional components
+
+
+### refs
+Refs (short for references) are a mechanism in React used to access DOM elements or component instances. They allow direct access to underlying DOM nodes or component instances within a React component, enabling specific operations to be performed. Refs can be utilized in the following scenarios:
+1. **Accessing DOM Elements**: Through refs, you can obtain references to DOM elements and directly manipulate the DOM as needed. This could involve tasks such as managing focus, measuring element dimensions, adding or removing CSS classes, and more.
+
+2. **Accessing Component Instances**: Refs enable access to instances of React components. This can be useful for invoking component methods, accessing component state or props, and handling certain low-level logic.
+
+3. **Instance Variables in Class Components**: Refs can also be used to store and access instance variables within class components. These variables can hold component state and track specific information throughout the component's lifecycle.
+
+#### ref as a string
+```jsx
+class Demo extends React.Component {
+    render() {
+        console.log(this)
+        return (
+            <div>
+                <input ref="input1" type="text" placeholder="Click the button to prompt the data" />
+                <button onClick={this.showData1}>Click</button><br />
+                <input ref="input2" onBlur={this.showData2} type="text" placeholder="Lost focus prompt data" /><br />
+            </div>
+        )
+    }
+
+    showData1 = () => {
+        console.log(this)
+        // output: <input type="text" placeholder="Click the button to prompt the data">
+        console.log(this.refs.input1)
+        console.log(this.refs.input1.value)
+    }
+
+    
+    showData2 = () => {
+        console.log(this)
+        // output: <input type="text" placeholder="Lost focus prompt data">
+        console.log(this.refs.input2)
+        console.log(this.refs.input2.value)
+    }
+}
+
+ReactDOM.render(<Demo />, document.querySelector('#test'))
+```
+In React, you can use string-based refs to reference DOM elements within a component. This is an older approach, while the more common methods nowadays involve using callback refs or React's createRef API.
+
+With string-based refs, we can add a ref attribute to a JSX element in a component and then access that DOM element using this.refs. However, this approach is no longer recommended by the official documentation, as it can lead to code that is harder to maintain in certain cases.
