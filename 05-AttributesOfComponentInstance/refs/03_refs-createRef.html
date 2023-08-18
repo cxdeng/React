@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_refs-createRef.html</title>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        class Demo extends React.Component {
+            /* 
+                调用React.creatRef()后可以返回一个容器，该容器可以存储被ref所标识的节点
+            */
+            myRef_input1 = React.createRef()
+            myRef_input2 = React.createRef()
+
+            render() {
+                console.log(this)
+                return (
+                    <div>
+                        <input ref={this.myRef_input1} type="text" placeholder="Click the button to prompt the data" />
+                        <button onClick={this.showData1}>Click</button><br />
+                        <input ref={this.myRef_input2} onBlur={this.showData2} type="text" placeholder="Lost focus prompt data" /><br />
+                    </div>
+                )
+            }
+
+            showData1 = () => {
+                console.log(this.myRef_input1)
+                console.log(this.myRef_input1.current);
+                console.log(this.myRef_input1.current.value);
+            }
+
+
+            showData2 = () => {
+                console.log(this.myRef)
+                console.log(this.myRef_input2.current);
+                console.log(this.myRef_input2.current.value);
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>

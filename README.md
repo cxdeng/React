@@ -513,6 +513,79 @@ class Demo extends React.Component {
 
 ReactDOM.render(<Demo />, document.querySelector('#test'))
 ```
-In React, you can use string-based refs to reference DOM elements within a component. This is an older approach, while the more common methods nowadays involve using callback refs or React's createRef API.
+In React, you can use string-based refs to reference DOM elements within a component. This is **an older approach**, while the more common methods nowadays involve using callback refs or React's createRef API.
 
 With string-based refs, we can add a ref attribute to a JSX element in a component and then access that DOM element using this.refs. However, this approach is no longer recommended by the official documentation, as it can lead to code that is harder to maintain in certain cases.
+
+#### ref in callback form
+```jsx
+class Demo extends React.Component {
+
+    render() {
+        console.log(this)
+        return (
+            <div>
+                <input ref={currentNode => this.input1 = currentNode} type="text" placeholder="Click the button to prompt the data" />
+                <button onClick={this.showData1}>Click</button><br />
+                <input ref={this.callbackRef} onBlur={this.showData2} type="text" placeholder="Lost focus prompt data" /><br />
+            </div>
+        )
+    }
+
+    callbackRef = (currentNode) => {
+        this.input2 = currentNode
+    }
+
+    showData1 = () => {
+        const { input1 } = this
+        console.log(input1.value)
+    }
+
+
+    showData2 = () => {
+        const { input2 } = this
+        console.log(input2.value)
+    }
+}
+
+ReactDOM.render(<Demo />, document.querySelector('#test'))
+```
+In React, a callback-style Ref is a way to get a reference to a DOM element or component instance via a callback function. This approach largely replaces the older string-based Ref, which provides greater flexibility and control.
+
+#### The use of createRef() function
+```jsx
+class Demo extends React.Component {
+    /* 
+        After calling React.creatRef(), a container can be returned, which can store the node identified by ref
+    */
+    myRef_input1 = React.createRef()
+    myRef_input2 = React.createRef()
+
+    render() {
+        console.log(this)
+        return (
+            <div>
+                <input ref={this.myRef_input1} type="text" placeholder="Click the button to prompt the data" />
+                <button onClick={this.showData1}>Click</button><br />
+                <input ref={this.myRef_input2} onBlur={this.showData2} type="text" placeholder="Lost focus prompt data" /><br />
+            </div>
+        )
+    }
+
+    showData1 = () => {
+        console.log(this.myRef_input1)
+        console.log(this.myRef_input1.current);
+        console.log(this.myRef_input1.current.value);
+    }
+
+
+    showData2 = () => {
+        console.log(this.myRef)
+        console.log(this.myRef_input2.current);
+        console.log(this.myRef_input2.current.value);
+    }
+}
+
+ReactDOM.render(<Demo />, document.querySelector('#test'))
+```
+After calling React.creatRef(), a container can be returned, which can store the node identified by ref.

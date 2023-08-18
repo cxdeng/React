@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_refs-callback.html</title>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        class Demo extends React.Component {
+
+            render() {
+                console.log(this)
+                return (
+                    <div>
+                        <input ref={currentNode => this.input1 = currentNode} type="text" placeholder="Click the button to prompt the data" />
+                        <button onClick={this.showData1}>Click</button><br />
+                        <input ref={this.callbackRef} onBlur={this.showData2} type="text" placeholder="Lost focus prompt data" /><br />
+                    </div>
+                )
+            }
+
+            callbackRef = (currentNode) => {
+                this.input2 = currentNode
+            }
+
+            showData1 = () => {
+                const { input1 } = this
+                console.log(input1.value)
+            }
+
+
+            showData2 = () => {
+                const { input2 } = this
+                console.log(input2.value)
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>
