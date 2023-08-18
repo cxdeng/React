@@ -24,6 +24,10 @@
     - Props in Functional Components
   * refs
     - ref as a string
+    - Using callback function
+    - Using createRef function
+* 06-Collect Form Data
+  * Uncontrolled Component 
   
 
 ## 01-Hello React
@@ -589,3 +593,83 @@ class Demo extends React.Component {
 ReactDOM.render(<Demo />, document.querySelector('#test'))
 ```
 After calling React.creatRef(), a container can be returned, which can store the node identified by ref.
+
+## 06-Collect Form Data
+
+In React, Controlled Components and Uncontrolled Components are two different ways of handling form elements and user input.
+
+### Uncontrolled Components
+```jsx
+class Login extends React.Component {
+
+    render() {
+        return (
+            <form action="" onSubmit={this.handleSubmit}>
+                username: <input type="text" name="username" ref={current => this.username = current} /><br />
+                password: <input type="password" name="pwd" ref={current => this.password = current} /><br />
+                <button>Login</button>
+            </form>
+        )
+    }
+
+    handleSubmit = (event) => {
+        console.log(this);
+        // Default behavior of blocking forms: Submit
+        event.preventDefault()
+        const {username, password} = this
+        console.log(username, password);
+        console.log(username.value, password.value);
+    }
+}
+
+ReactDOM.render(<Login />, document.querySelector('#test'))
+```
+Uncontrolled Components:
+
+Uncontrolled components are those form elements that are not controlled by React component state. Instead, they rely on the state of the DOM itself to manage values. You can access the values of these elements through Refs, but React components don't directly control them.
+
+### Controlled Components
+```jsx
+class Login extends React.Component {
+
+    // The initialization of state
+    state = {
+        username: '',
+        password: ''
+    }
+
+    render() {
+        return (
+            <form action="" onSubmit={this.handleSubmit}>
+                username: <input type="text" name="username" onChange={this.saveUsername} /><br />
+                password: <input type="password" name="pwd" onChange={this.savePwd} /><br />
+                <button>Login</button>
+            </form>
+        )
+    }
+
+    handleSubmit = (event) => {
+        console.log(this);
+        // Default behavior of blocking forms: Submit
+        event.preventDefault()
+        // Get username and password from state property
+        const { username, password } = this.state
+        console.log(username, password);
+    }
+
+    saveUsername = (event) => {
+        // Save username maintenance to state property
+        this.setState({ username: event.target.value })
+    }
+
+    savePwd = (event) => {
+        // Save password maintenance to state property
+        this.setState({ password: event.target.value })
+    }
+}
+
+ReactDOM.render(<Login />, document.querySelector('#test'))
+```
+Controlled Components:
+
+Controlled components are form elements whose values are controlled by the React component state. This means that the state of the React component is used as the value of the form element, and event handlers are used to update the state. As the user types, the state of the React component is updated, and the state change is reflected on the form elements.

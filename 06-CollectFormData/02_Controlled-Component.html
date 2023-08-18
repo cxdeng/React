@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Controlled-Component.html</title>
+    <style>
+        input {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        /* 
+            受控组件（Controlled Components）：
+                受控组件是指那些由 React 组件状态（state）来控制其值的表单元素。
+                这意味着 React 组件的状态（state）被用作表单元素的值，
+                    并且通过事件处理程序来更新状态。
+                当用户输入时，React 组件的状态会被更新，然后状态的变化会被反映到表单元素上。
+        */
+        class Login extends React.Component {
+
+            // 初始化状态
+            state = {
+                username: '',
+                password: ''
+            }
+
+            render() {
+                return (
+                    <form action="" onSubmit={this.handleSubmit}>
+                        username: <input type="text" name="username" onChange={this.saveUsername} /><br />
+                        password: <input type="password" name="pwd" onChange={this.savePwd} /><br />
+                        <button>Login</button>
+                    </form>
+                )
+            }
+
+            handleSubmit = (event) => {
+                console.log(this);
+                // 阻止表单的默认行为: 提交
+                event.preventDefault()
+                // 从state属性中获取用户名和密码
+                const { username, password } = this.state
+                console.log(username, password);
+            }
+
+            saveUsername = (event) => {
+                // 保存用户名维护到状态里
+                this.setState({ username: event.target.value })
+            }
+
+            savePwd = (event) => {
+                // 保存密码维护到状态里
+                this.setState({ password: event.target.value })
+            }
+        }
+
+        ReactDOM.render(<Login />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>

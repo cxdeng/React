@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Uncontrolled-Component.html</title>
+    <style>
+        input {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        /* 
+            非受控组件（Uncontrolled Components）：
+                非受控组件是指那些不由 React 组件状态控制的表单元素。
+                相反，它们依赖于 DOM 自身的状态来管理值。
+                可以通过 Refs 来访问这些元素的值，但是 React 组件并不直接控制它们。
+        */
+        class Login extends React.Component {
+
+            render() {
+                return (
+                    <form action="" onSubmit={this.handleSubmit}>
+                        username: <input type="text" name="username" ref={current => this.username = current} /><br />
+                        password: <input type="password" name="pwd" ref={current => this.password = current} /><br />
+                        <button>Login</button>
+                    </form>
+                )
+            }
+
+            handleSubmit = (event) => {
+                console.log(this);
+                // 阻止表单的默认行为: 提交
+                event.preventDefault()
+                const {username, password} = this
+                console.log(username, password);
+                console.log(username.value, password.value);
+            }
+        }
+
+        ReactDOM.render(<Login />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>
