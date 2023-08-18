@@ -20,6 +20,8 @@
   * props
     - Use of props
     - Restriction of props
+    - Simple Form of Coding
+    - Props in Functional Components
   
 
 ## 01-Hello React
@@ -425,3 +427,45 @@ ReactDOM.render(<Person name="Olivia" gender="Male" age={19} speak={doSpeak} />,
 Generally, in React, the constructor is used for the following two cases:
 1. Initializing the internal state by assigning an object to this.state.
 2. Binding instances for event handling functions.
+
+
+#### Props in Functional Components
+```jsx
+/* 
+    props is also an object in functional components
+*/
+function Person(props) {
+    const { name, gender, age } = props
+    return (
+        <ul>
+            <li>Name: {props.name}</li>
+            <li>Gender: {gender}</li>
+            <li>Age: {age}</li>
+        </ul>
+    )
+}
+
+// Restrict the type and necessity of the attributes of the component tag
+Person.propTypes = {
+    // Restrict the 'name' attribute to a string type and must be passed in
+    name: PropTypes.string.isRequired,
+    // Restrict the 'gender' attribute to a string type
+    gender: PropTypes.string,
+    // Restrict the 'age' attribute to a numeric type
+    age: PropTypes.number,
+    // Restrict 'doSpeak' attribute to function type
+    speak: PropTypes.func
+}
+
+// Specifies the default value for a label attribute
+Person.defaultProps = {
+    // Specifies that the default value for the 'gender' attribute is 'Male'
+    gender: "Male"
+}
+
+ReactDOM.render(<Person name="Olivia" gender="Male" age={19} />, document.querySelector('#test1'))
+
+```
+Using props in functional components
+1. "propTypes" and "defaultProps" cannot be written within the body of a functional component, they can only be defined externally.
+2.  'props' is also an object in functional components
