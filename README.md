@@ -673,3 +673,74 @@ ReactDOM.render(<Login />, document.querySelector('#test'))
 Controlled Components:
 
 Controlled components are form elements whose values are controlled by the React component state. This means that the state of the React component is used as the value of the form element, and event handlers are used to update the state. As the user types, the state of the React component is updated, and the state change is reflected on the form elements.
+
+## 07-Advanced Function
+### Currying of Function
+```jsx
+class Login extends React.Component {
+    state = {
+        username: '',
+        password: ''
+    }
+
+    render() {
+        return (
+            <form action="" onSubmit={this.handleSubmit}>
+                username: <input type="text" name="username" onChange={this.saveFormData('username')} /><br />
+                password: <input type="password" name="pwd" onChange={this.saveFormData('password')} /><br />
+                <button>Login</button>
+            </form>
+        )
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault()
+        const { username, password } = this.state
+        console.log(username, password);
+    }
+
+    // Currying of Function
+    saveFormData = (dataType) => {
+        return (event) => {
+            this.setState({ [dataType]: event.target.value })
+        }
+    }
+}
+
+ReactDOM.render(<Login />, document.querySelector('#test'))
+```
+Currying is a functional programming technique that converts a multi-argument function into a series of functions that take only one argument. One of the benefits of this is more flexibility in function composition and parameter passing.
+
+### Non-Currying Implementation
+```jsx
+class Login extends React.Component {
+    state = {
+        username: '',
+        password: ''
+    }
+
+    render() {
+        return (
+            <form action="" onSubmit={this.handleSubmit}>
+                username: <input type="text" name="username" onChange={event => this.saveFormData('username', event)} /> <br />
+                password: <input type="password" name="pwd" onChange={event => this.saveFormData('password', event)} /><br />
+                <button>Login</button>
+            </form>
+        )
+    }
+
+    handleSubmit = (event) => {
+        console.log(this);
+        event.preventDefault()
+        const { username, password } = this.state
+        console.log(username, password);
+    }
+
+    saveFormData = (dataType, event) => {
+        this.setState({ [dataType]: event.target.value })
+
+    }
+}
+
+ReactDOM.render(<Login />, document.querySelector('#test'))
+```

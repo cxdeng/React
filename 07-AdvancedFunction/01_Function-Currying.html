@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Function-Currying.html</title>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        class Login extends React.Component {
+
+            // 初始化状态
+            state = {
+                username: '',
+                password: ''
+            }
+
+            render() {
+                return (
+                    <form action="" onSubmit={this.handleSubmit}>
+                        username: <input type="text" name="username" onChange={this.saveFormData('username')} /><br />
+                        password: <input type="password" name="pwd" onChange={this.saveFormData('password')} /><br />
+                        <button>Login</button>
+                    </form>
+                )
+            }
+
+            handleSubmit = (event) => {
+                console.log(this);
+                // 阻止表单的默认行为: 提交
+                event.preventDefault()
+                // 从state属性中获取用户名和密码
+                const { username, password } = this.state
+                console.log(username, password);
+            }
+
+            saveFormData = (dataType) => {
+                return (event) => {
+                    this.setState({ [dataType]: event.target.value })
+                }
+            }
+        }
+
+        ReactDOM.render(<Login />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>
