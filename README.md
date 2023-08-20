@@ -42,6 +42,7 @@
     3. GetDerivedStateFromProps Case
 * 09-Diffing Algorithm
   - Verify Diffing Algorithm
+  - The role of key in virtual DOM
 
   
   
