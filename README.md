@@ -1034,3 +1034,44 @@ Here are the key points about 'getSnapshotBeforeUpdate':
 4. **Main Use Cases:** It's commonly used to capture the current scroll position, cursor position, or other UI-related states, so they can be properly addressed or restored after the DOM updates.
 
 5. **Relationship with componentDidUpdate:** Any value returned from getSnapshotBeforeUpdate will be passed to componentDidUpdate, allowing you to react based on the captured information.
+
+### GetDerivedStateFromProps Case
+```jsx
+class NewsList extends React.Component {
+
+    state = { newsArr: [] }
+
+    render() {
+        return (
+            <div className="list" ref="list">
+                {
+                    this.state.newsArr.map((element, index)=>{
+                        return <div className='news' key={index}>{element}</div>
+                    })
+                }
+            </div>
+        )
+    }
+
+    getSnapshotBeforeUpdate(){
+        return this.refs.list.scrollHeight
+    }
+
+    componentDidUpdate(prevProps, prevState, height){
+        this.refs.list.scrollTop += this.refs.list.scrollHeight - height
+    }
+
+    componentDidMount() {
+        setInterval(() => {
+            // get original state
+            const { newsArr } = this.state
+            // Simulate a piece of news
+            const news = 'News' + (newsArr.length + 1)
+            // update state
+            this.setState({newsArr: [news, ...newsArr]})
+        }, 1000)
+    }    
+}
+
+ReactDOM.render(<NewsList />, document.querySelector('#test'))
+```
