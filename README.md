@@ -34,6 +34,15 @@
   - Non-Currying Implementation
 * 08-Life Cycle
   - Introduction
+  - Lifecycle (old)
+  - The lifecycle of parent-child components (old)
+  - Lifecycle (new)
+    1. Function: getDerivedStateFromProps
+    2. Function: getSnapshotBeforeUpdate
+    3. GetDerivedStateFromProps Case
+* 09-Diffing Algorithm
+  - Verify Diffing Algorithm
+
   
   
 
@@ -1075,3 +1084,56 @@ class NewsList extends React.Component {
 
 ReactDOM.render(<NewsList />, document.querySelector('#test'))
 ```
+
+
+## 09-Diffing Algorithm
+### Verify Diffing Algorithm
+In React, the Diffing algorithm is a critical mechanism that React uses to compare two versions of the Virtual DOM tree and determine the differences so that it can efficiently update the actual DOM. This approach is adopted by React to optimize performance since direct DOM manipulations are typically more expensive than working with JavaScript objects.
+
+The Diffing algorithm in React is based on two primary assumptions:
+
+1. **Different types of elements will produce different trees.** When the type of an element changes, React will tear down the old tree and build a new one. For instance, if an element changes from 'a' label to 'button' label, React would destroy the previous tree and its children and create a new DOM node.
+2. **Developers can hint at which child elements may remain stable across different renders with the key prop.** For instance, providing a stable key when reordering a list can help React identify them.
+
+The Diffing algorithm in React can be divided into the following three phases:
+
+1. **Tree Diff:** Compares the structure of the two trees. If the type of a component changes, then that component and all its child components will be re-rendered.
+2. **Component Diff:** Compares between two components of the same type. If they are of the same type, React recursively compares their children; if not, it tears it down and rebuilds.
+3. **Element Diff:** Compares child nodes at the same hierarchy level. Here, React uses the key prop to determine which child nodes can remain stable.
+
+While the Diffing algorithm doesn't guarantee always to produce the minimum number of operations, it has proven to be very effective and fast in practical applications. The React team made heuristic choices in the algorithm to ensure it performs efficiently for common UI update patterns.
+
+### The role of key in virtual DOM
+#### **Simple Explanation:**
+
+The key is the identifier of the virtual DOM object, and the key plays an extremely important role in updating the display.
+
+#### Complicated Explanation
+
+When the data in the state changes, React generates a "new virtual DOM" based on the "new data." And then, React will compares the diff between the new virtual DOM and the old virtual DOM.
+
+**The comparison rules are as follows:**
+
+1. If the same key is found in the old virtual DOM as in the new virtual DOM:
+   - If the contents of the virtual DOM have not changed, the previous real DOM will be used directly.
+   - If the content in the virtual DOM changes, a new real DOM will be generated and the previous real DOM in the page will be replaced as well.
+
+2. The same key was not found in the old virtual DOM as in the new virtual DOM:
+    - React will create a new real DOM based on the data and render it to the page.
+
+
+### Summary
+
+In React, the key is a special attribute primarily used to uniquely identify elements within lists or arrays. Its main purposes and benefits include:
+
+1. **Performance Enhancement:** React uses a diffing algorithm, known as Reconciliation, to compare the old and new virtual DOM and determine if there's a need to update the real DOM. When dealing with lists or arrays, by assigning each item a stable, unique key, React can quickly identify which items have been added, modified, or removed, leading to more efficient real DOM updates.
+2. **Reducing Errors:** Omitting a key or using unstable keys (e.g., random numbers) can lead to unpredictable errors. For instance, states might get mixed up, or components may not render correctly.
+3. **Component State Stability:** If a component's state is tied to a specific item in a list, without a stable key or in the presence of unstable keys, the state might get jumbled if the list gets reordered or changes. Assigning each item a stable key ensures the component's state remains consistent with its associated list item.
+
+Considerations:
+- Avoid using array indices as key unless the list items are static, unchanging, have no ID, and there are no add/remove operations in the list. Using indices can lead to degraded performance or introduce bugs if the list is reordered or items are added/removed.
+- For items with a unique ID (e.g., data fetched from a database), it's preferable to use that unique ID as the key.
+- While the key should ideally be globally unique, in practical applications, it only needs to be unique amongst its siblings.
+- Even though key appears to be a prop, it cannot be accessed using this.props.key. React automatically utilizes the key to determine which child components need updates, and it doesn't pass it as a prop to the component.
+
+In conclusion, when working with arrays or lists in React, ensure to provide an appropriate key for each item. This helps React update the real DOM more efficiently and accurately, and it minimizes the potential for errors.

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Verify-Diffing-Algorithm.html</title>
+    <style>
+        #test div div {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        class Time extends React.Component {
+            state = { date: new Date() }
+
+            render() {
+                return (
+                    <div>
+                        <h1>Diffing Algorithm</h1>
+                        <input type="text" /><br />
+                        <div>
+                            Now: {this.state.date.toTimeString()}
+                        </div>
+                    </div>
+                )
+            }
+
+            componentDidMount(){
+                setInterval(()=>{
+                    this.setState({date: new Date()})
+                }, 1000)
+            }
+        }
+
+        ReactDOM.render(<Time />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>
