@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Lifecycle-Old.html</title>
+    <style>
+        #test div button {
+            margin: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        class Count extends React.Component {
+
+            constructor(props) {
+                console.log('Count Component: constructor');
+                super(props)
+                this.state = { count: 0 }
+            }
+
+            render() {
+                console.log('Count Component: render');
+                const { count } = this.state
+                return (
+                    <div>
+                        <h2>Currently, Sum: {count}</h2>
+                        <button onClick={this.add}>Click to add one</button>
+                        <button onClick={this.unmount}>Click to unmonted component</button>
+                        <button onClick={this.force}>Click to force update</button>
+                    </div>
+                )
+            }
+
+            componentWillMount() {
+                console.log('Count Component: componentWillMount');
+            }
+
+            componentDidMount() {
+                console.log('Count Component: componentDidlMount');
+            }
+
+            componentWillUnmount() {
+                console.log('Count Component: componentWillUnmount');
+            }
+
+            shouldComponentUpdate() {
+                console.log('Count Component: shouldComponentUpdate');
+                return true
+            }
+
+            componentWillUpdate() {
+                console.log('Count Component: componentWillUpdate');
+            }
+
+            componentDidUpdate() {
+                console.log('Count Component: componentDidUpdate');
+            }
+
+            add = () => {
+                const { count } = this.state
+                this.setState({ count: count + 1 })
+            }
+
+            unmount = () => {
+                console.log('Count Component: unmount');
+                ReactDOM.unmountComponentAtNode(document.querySelector('#test'))
+            }
+
+            force = () => {
+                console.log('Count Component: force');
+                this.forceUpdate()
+            }
+        }
+
+        ReactDOM.render(<Count />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>

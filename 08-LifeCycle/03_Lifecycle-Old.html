@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_Lifecycle-Old.html</title>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        // 父组件
+        class A extends React.Component {
+
+            state = { brandName: 'benz' }
+
+            render() {
+                return (
+                    <div>
+                        <div>Component A</div>
+                        <button onClick={this.changeBrand}>change brand</button>
+                        <B brandName={this.state.brandName} />
+                    </div>
+                )
+            }
+
+            changeBrand = () => {
+                this.setState({ brandName: 'BMW' })
+            }
+        }
+
+        // 子组件
+        class B extends React.Component {
+            render() {
+                return (
+                    <div>
+                        <div>Component B</div>
+                        <div>brandName: {this.props.brandName}</div>
+                    </div>
+                )
+            }
+
+            // 第一次接收props的时候不会调用该函数
+            componentWillReceiveProps(props) {
+                console.log('B Component: componentWillReceiveProps', props);
+            }
+
+            shouldComponentUpdate() {
+                console.log('B Component: shouldComponentUpdate');
+                return true
+            }
+
+            componentWillUpdate() {
+                console.log('B Component: componentWillUpdate');
+            }
+
+            componentDidUpdate() {
+                console.log('B Component: componentDidUpdate');
+            }
+        }
+
+        ReactDOM.render(<A />, document.querySelector('#test'))
+
+    </script>
+</body>
+
+</html>

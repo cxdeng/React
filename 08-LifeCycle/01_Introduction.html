@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Introduction.html</title>
+</head>
+
+<body>
+
+    <div id="test"></div>
+
+    <!-- 引入react核心库 -->
+    <script type="text/javascript" src="../../React.JS/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作dom -->
+    <script type="text/javascript" src="../../React.JS/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script type="text/javascript" src="../../React.JS/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限制 -->
+    <script type="text/javascript" src="../../React.JS/prop-types.js"></script>
+
+    <script type="text/babel">
+        /* 
+            生命周期回调函数
+        */
+        class Life extends React.Component {
+            // 定义状态
+            state = { opacity: 1 }
+
+            render() {
+                return (
+                    <div>
+                        <h2 style={{ opacity: this.state.opacity }}>Component Life Cycle</h2>
+                        <button onClick={this.func}>Click</button>
+                    </div>
+                )
+            }
+
+            // 组件挂载完毕后调用该函数
+            componentDidMount() {
+                this.timer = setInterval(() => {
+                    // 获取原状态
+                    let { opacity } = this.state
+
+                    opacity -= 0.1
+                    if (opacity <= 0) {
+                        opacity = 1
+                    }
+
+                    this.setState({ opacity: opacity })
+
+                }, 200)
+            }
+
+            // 组件将要被卸载的时候被调用
+            componentWillUnmount() {
+                // 清除定时器
+                clearInterval(this.timer)
+            }
+
+            func = () => {
+                // 卸载组件
+                ReactDOM.unmountComponentAtNode(document.querySelector('#test'))
+            }
+        }
+
+        ReactDOM.render(<Life />, document.querySelector('#test'))
+    </script>
+</body>
+
+</html>

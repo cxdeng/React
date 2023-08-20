@@ -27,7 +27,14 @@
     - Using callback function
     - Using createRef function
 * 06-Collect Form Data
-  * Uncontrolled Component 
+  - Uncontrolled Components
+  - Controlled Components
+* 07-Advanced Function
+  - Function Currying
+  - Non-Currying Implementation
+* 08-Life Cycle
+  - Introduction
+  
   
 
 ## 01-Hello React
@@ -744,3 +751,286 @@ class Login extends React.Component {
 
 ReactDOM.render(<Login />, document.querySelector('#test'))
 ```
+
+
+## 08-Lifecycle
+### Introduciton
+```jsx
+// Lifecycle callback function
+class Life extends React.Component {
+    state = { opacity: 1 }
+
+    render() {
+        return (
+            <div>
+                <h2 style={{ opacity: this.state.opacity }}>Component Life Cycle</h2>
+                <button onClick={this.func}>Click</button>
+            </div>
+        )
+    }
+
+    // This function is called after the component is mounted
+    componentDidMount() {
+        this.timer = setInterval(() => {
+            let { opacity } = this.state
+
+            opacity -= 0.1
+            if (opacity <= 0) {
+                opacity = 1
+            }
+
+            this.setState({ opacity: opacity })
+
+        }, 200)
+    }
+
+    // Called when the component is about to be unmounted
+    componentWillUnmount() {
+        // clear timer
+        clearInterval(this.timer)
+    }
+
+    func = () => {
+        // Unmounted components
+        ReactDOM.unmountComponentAtNode(document.querySelector('#test'))
+    }
+}
+
+ReactDOM.render(<Life />, document.querySelector('#test'))
+```
+
+
+### Lifecycle (old)
+
+**The schematic diagram of the life cycle of React@16**
+
+![](Images/Lifecycle-Old.png)
+```jsx
+class Count extends React.Component {
+
+    constructor(props){
+        console.log('Count Component: constructor');
+        super(props)
+        this.state = { count: 0 }
+    }
+
+    render() {
+        console.log('Count Component: render');
+        const { count } = this.state
+        return (
+            <div>
+                <h2>Currently, Sum: {count}</h2>
+                <button onClick={this.add}>Click to add one</button>
+                <button onClick={this.unmount}>Click to unmonted component</button>
+                <button onClick={this.force}>Click to force update</button>
+            </div>
+        )
+    }
+
+    componentWillMount(){
+        console.log('Count Component: componentWillMount');
+    }
+
+    componentDidMount(){
+        console.log('Count Component: componentDidlMount');
+    }
+
+    componentWillUnmount(){
+        console.log('Count Component: componentWillUnmount');
+    }
+
+    shouldComponentUpdate(){
+        console.log('Count Component: shouldComponentUpdate');
+        return true
+    }
+
+    componentWillUpdate() {
+        console.log('Count Component: componentWillUpdate');
+    }
+
+    componentDidUpdate() {
+        console.log('Count Component: componentDidUpdate');
+    }
+
+    add = () => {
+        const { count } = this.state
+        this.setState({ count: count + 1 })
+    }
+
+    unmount = ()=> {
+        console.log('Count Component: unmount');
+        ReactDOM.unmountComponentAtNode(document.querySelector('#test'))
+    }
+
+    force = () => {
+        console.log('Count Component: force');
+        this.forceUpdate()
+    }
+}
+
+ReactDOM.render(<Count />, document.querySelector('#test'))
+```
+The order in which components are mounted:
+1. The constructor function of Component.
+2. The componentWillMount function.
+3. The render function.
+4. The componentDidMount function.
+
+The order in which components are unmounted:
+1. The unmount function in the Count component
+2. The componentWillUnmount function.
+
+The order in which components are updated:
+1. The shouldComponentUpdate function.
+2. The componentWillUpdate function.
+3. The render function.
+4. The componentDidUpdate function.
+
+The order in which components are forced updated:  ( Call forceUpdate() function )
+1. The componentWillUpdate function.
+2. The render function.
+3. The componentDidUpdate function.
+
+### The lifecycle of parent-child components (old)
+```jsx
+// Parent Component
+class A extends React.Component {
+
+    state = { brandName: 'benz' }
+
+    render() {
+        return (
+            <div>
+                <div>Component A</div>
+                <button onClick={this.changeBrand}>change brand</button>
+                <B brandName={this.state.brandName} />
+            </div>
+        )
+    }
+
+    changeBrand = () => {
+        this.setState({ brandName: 'BMW' })
+    }
+}
+
+// Child Component
+class B extends React.Component {
+    render() {
+        return (
+            <div>
+                <div>Component B</div>
+                <div>brandName: {this.props.brandName}</div>
+            </div>
+        )
+    }
+
+    // This function will not be called when receiving props for the first time
+    componentWillReceiveProps(props) {
+        console.log('B Component: componentWillReceiveProps', props);
+    }
+
+    shouldComponentUpdate() {
+        console.log('B Component: shouldComponentUpdate');
+        return true
+    }
+
+    componentWillUpdate() {
+        console.log('B Component: componentWillUpdate');
+    }
+
+    componentDidUpdate() {
+        console.log('B Component: componentDidUpdate');
+    }
+}
+
+ReactDOM.render(<A />, document.querySelector('#test'))
+
+```
+When the parent component is updated, the calling order of the child components:
+1. The function of componentWillReceiveProps(props)
+2. The function of shouldComponentUpdate()
+3. The function of componentWillUpdate()
+4. The function of componentDidUpdate()
+
+
+### Lifecycle (new)
+
+**The schematic diagram of the life cycle of React@17**
+
+![](Images/Lifecycle-New.png)
+
+```jsx
+class Count extends React.Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    /* 
+        This method is suitable for rare use cases:
+             That is, the value of state depends on props at any time
+    */
+    static getDerivedStateFromProps(props, state){
+        console.log('Count Component: getDerivedStateFromProps', props, state);
+        return null
+    }
+
+    /* 
+        Take a snapshot before updating.
+
+        Called before the most recent rendered output,
+        It enables components to capture some information from the DOM before it changes
+    */
+    getSnapshotBeforeUpdate(){
+        console.log('Count Component: getSnapshotBeforeUpdate');
+        return 'snapshot'
+    }
+
+
+    componentDidUpdate(prevProps, prevState, snapshotValue) {
+        console.log('Count Component: componentDidUpdate', prevProps, prevState, snapshotValue);
+    }
+}
+```
+
+#### Function: getDerivedStateFromProps
+**'getDerivedStateFromProps'** is a static method in the React component lifecycle. Introduced from React version 16.3, it serves as a replacement for the componentWillReceiveProps method. Its primary purpose is to allow components to update their state upon receiving new props.
+
+Key features and purposes of getDerivedStateFromProps:
+
+1. **It's a static method:** 
+   Being static means it doesn't have access to the component instance via this. This implies you can't call this.setState() or any other instance methods.
+
+2. **Returns an object or null:**
+   - If it returns an object, that object will be merged with the current state.
+   - If it returns null, no updates to the state will be made.
+
+3. **Parameters:** The method accepts two parameters.
+   - props: The new props the component is about to receive.
+   - state: The current state of the component.
+
+4. **When it's called:**  It's invoked under the following scenarios:
+   - During mounting.
+   - Whenever the component receives new props.
+
+5. **Main use cases:**
+   - To derive and update state based on new props.
+   - Can serve as the source for computed properties or derived state.
+
+6. **Use with caution:** Over-reliance on **getDerivedStateFromProps** is discouraged as it runs every time there's a change in **props** and context, potentially leading to unnecessary renders. In many scenarios, a better approach would be using React's hooks like **useState** and **useEffect**, or other lifecycle methods.
+
+
+#### Function: getSnapshotBeforeUpdate
+**'getSnapshotBeforeUpdate'** is a lifecycle method in React, introduced in version 16.3. Its main purpose is to capture some information about the DOM before it's updated, allowing you to use this captured information after the DOM has been updated.
+
+Here are the key points about 'getSnapshotBeforeUpdate':
+
+1. **Timing:** This method is called right before the DOM updates, but after render and the actual DOM changes.
+
+2. **Return Value:** This method can return a value (or null), which will be passed as the third argument to the componentDidUpdate method.
+
+3. **Parameters:** The method receives two parameters, which are the previous props and the previous state.
+
+4. **Main Use Cases:** It's commonly used to capture the current scroll position, cursor position, or other UI-related states, so they can be properly addressed or restored after the DOM updates.
+
+5. **Relationship with componentDidUpdate:** Any value returned from getSnapshotBeforeUpdate will be passed to componentDidUpdate, allowing you to react based on the captured information.
