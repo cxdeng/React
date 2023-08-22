@@ -1,0 +1,16 @@
+ /*header*/
+ .todo-header {
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+ .todo-header input {
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid rgba(128, 128, 128, 0.486);
+ }

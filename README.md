@@ -43,6 +43,13 @@
 * 09-Diffing Algorithm
   - Verify Diffing Algorithm
   - The role of key in virtual DOM
+    1. Simple Explanation
+    2. Complicated Explanation
+  - Summary
+* 10-React Scaffold
+  - [Hello Scaffold](./10-ReactScaffold/hello-scaffold/README.md)
+  - [Todo List Case](./10-ReactScaffold/todo-list/README.md)
+   
 
   
   
@@ -1109,7 +1116,7 @@ While the Diffing algorithm doesn't guarantee always to produce the minimum numb
 
 The key is the identifier of the virtual DOM object, and the key plays an extremely important role in updating the display.
 
-#### Complicated Explanation
+#### **Complicated Explanation**
 
 When the data in the state changes, React generates a "new virtual DOM" based on the "new data." And then, React will compares the diff between the new virtual DOM and the old virtual DOM.
 

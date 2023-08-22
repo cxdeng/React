@@ -1,0 +1,15 @@
+.container {
+  border: 1px solid black;
+  width: 500px;
+  /* height: 500px; */
+  margin: 200px auto;
+  border-radius: 20px;
+
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  align-content: flex-start;
+  gap: 20px;
+}

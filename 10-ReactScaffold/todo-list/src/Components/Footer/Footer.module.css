@@ -1,0 +1,16 @@
+.footer {
+    display: flex;
+    width: 100%;
+}
+
+.footer button {
+    margin-left: auto;
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: tomato;
+    color: white;
+}
+
+.footer label {
+    margin-right: 15px;
+}
