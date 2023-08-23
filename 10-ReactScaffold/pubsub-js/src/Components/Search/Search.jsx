@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import PubSub from 'pubsub-js'
 import search from './Search.module.css'
 
 export default class Search extends Component {
@@ -15,23 +16,26 @@ export default class Search extends Component {
     )
   }
 
+
   search = () => {
     // 获取用户的输入
     const { value: keyword } = this.keywordElem
-    // 发送请求前,通知App组件更新状态
-    this.props.updateAppState({ isFirst: false, isLoading: true })
+
+    // 发送请求前,通知List组件更新状态
+    PubSub.publish('list-info', { isFirst: false, isLoading: true })
+
     // 发送网络请求
     axios.get(`https://api.github.com/search/users?q=${keyword}`)
       .then(
         response => {
-          // 请求成功后，通知App组件更新状态
+          // 请求成功后，通知List组件更新状态
           console.log(response.data);
-          this.props.updateAppState({isLoading: false, users: response.data.items})
+          PubSub.publish('list-info', { isLoading: false, users: response.data.items })
         },
         error => {
-          // 请求失败后，通知App组件更新状态
+          // 请求失败后，通知List组件更新状态
           console.log(error);
-          this.props.updateAppState({isLoading: false, err: error.message})
+          PubSub.publish('list-info', { isLoading: false, err: error.message })
         }
       )
   }
