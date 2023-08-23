@@ -1,0 +1,36 @@
+.list-container {
+    /* background-color: rosybrown; */
+    width: 950px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.list-container .card {
+    width: 150px;
+    height: 150px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 20px 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+.list-container a {
+    width: 100px;
+    height: 100px;
+}
+
+.list-container img {
+    width: 100px;
+    height: 100px;
+}
+
+.list-container div {
+    width: 100%;
+}
