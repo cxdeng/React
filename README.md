@@ -50,8 +50,8 @@
   - [Hello Scaffold](./10-ReactScaffold/hello-scaffold/README.md)
   - [Todo List Case](./10-ReactScaffold/todo-list/README.md)
   - Axios in Use
-    1. Axios Client (React)
-    2. Axios Server (Springboot)
+    1. [Axios Client (React)](./10-ReactScaffold/Axios-in-Use/axios-client/README.md)
+    2. [Axios Server (Springboot)](./10-ReactScaffold/Axios-in-Use/Axios-Server/README.md)
    
 
   
