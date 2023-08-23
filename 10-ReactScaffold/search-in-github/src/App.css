@@ -3,6 +3,12 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
+ 
+}
+
+.container hr {
+  width: 100%;
 }
 
 .search-container {
