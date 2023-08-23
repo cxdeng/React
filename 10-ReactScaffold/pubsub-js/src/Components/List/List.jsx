@@ -1,10 +1,35 @@
 import React, { Component } from 'react'
+import PubSub from 'pubsub-js'
 import list from './List.module.css'
-import picture from '../../img/Leslie.webp'
 
 export default class List extends Component {
+
+    /* 
+    Init state
+    The initial value of users is empty array 
+  */
+    state = {
+      users: [],
+      // 是否为第一次打开页面
+      isFirst: true,
+      // 是否处于加载中
+      isLoading: false,
+      // 存储请求相关的错误信息
+      err: '',
+    }
+
+    componentDidMount(){
+      this.token = PubSub.subscribe('list-info', (msg, stateObj)=>{
+        this.setState(stateObj)
+      })
+    }
+
+    componentWillUnmount(){
+      PubSub.unsubscribe(this.token)
+    }
+
   render() {
-    const { users, isFirst, isLoading, err } = this.props
+    const { users, isFirst, isLoading, err } = this.state
     if (isFirst) {
       return (
         <h2>Input username and search</h2>
