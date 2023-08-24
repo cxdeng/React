@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import nav from './Nav.module.css'
 
 export default class Nav extends Component {
@@ -7,7 +7,7 @@ export default class Nav extends Component {
         console.log('Nav', this.props);
         return (
             <div className={nav['nav-container']}>
-                <Link className={nav['link-about', 'link']} to='/about'>About</Link>
+                <NavLink className={nav['link-about', 'link']} to='/about'>About</NavLink>
                 <Link className={nav['link-home', 'link']} to="/home">Home</Link>
             </div>
         )
