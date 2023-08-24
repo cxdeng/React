@@ -18,8 +18,12 @@
 
     text-decoration: none;  /* 去除下划线 */
     color: inherit;         /* 使用父元素的文字颜色 */
-    background-color: transparent; /* 无背景色 */
     cursor: pointer;        /* 显示为手指图标 */
     outline: none;          /*去除点击时的轮廓线 */
+}
+
+.selected {
+    background-color: orange;
+    color: white;
 }
 

@@ -7,8 +7,8 @@ export default class Nav extends Component {
         console.log('Nav', this.props);
         return (
             <div className={nav['nav-container']}>
-                <NavLink className={nav['link-about', 'link']} to='/about'>About</NavLink>
-                <Link className={nav['link-home', 'link']} to="/home">Home</Link>
+                <NavLink activeClassName={nav.selected} className={nav.link} to='/about'>About</NavLink>
+                <NavLink activeClassName={nav.selected} className={nav.link} to="/home">Home</NavLink>
             </div>
         )
     }
