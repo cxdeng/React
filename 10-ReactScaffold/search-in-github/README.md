@@ -1,70 +1,147 @@
-# Getting Started with Create React App
+# Search Users in Github
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## The Introduction of Project
 
-## Available Scripts
+Based on react, use Axios to send a request to Github's server to get user data and render the user's name, home page link, and avatar to the page.
 
-In the project directory, you can run:
+## index.js
+```jsx
+// 引入React核心库
+import React from 'react'
+// 引入ReactDOM
+import ReactDOM from 'react-dom'
+// 引入App组件
+import App from './App'
 
-### `npm start`
+// 渲染App组件到页面
+ReactDOM.render(<App/>, document.querySelector('#root'))
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## App.js
+```jsx
+import React, { Component } from 'react'
+import Search from './Components/Search/Search'
+import List from './Components/List/List'
+import app from './App.css'
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+export default class App extends React.Component{
 
-### `npm test`
+  /* 
+    Init state
+    The initial value of users is empty array 
+  */
+  state = {
+    users: [],
+    // 是否为第一次打开页面
+    isFirst: true,
+    // 是否处于加载中
+    isLoading: false,
+    // 存储请求相关的错误信息
+    err: '',
+  }
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  render() {
+    return (
+      <div className='container'>
+        <Search updateAppState={this.updateAppState} ></Search>
+        <List {...this.state}></List>
+      </div>
+    )
+  }
 
-### `npm run build`
+  // 更新App组件的state
+  updateAppState = (stateObj) => {
+    this.setState(stateObj)
+  }
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Important Components
+### Search Component
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```jsx
+import React, { Component } from 'react'
+import axios from 'axios'
+import search from './Search.module.css'
 
-### `npm run eject`
+export default class Search extends Component {
+  render() {
+    return (
+      <div className={search['search-container']}>
+        <h1>Search Users in Github</h1>
+        <div>
+          <input ref={cur => this.keywordElem = cur} type="text" placeholder='Enter User Name' />
+          <button onClick={this.search}>Search</button>
+        </div>
+      </div>
+    )
+  }
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  search = () => {
+    // 获取用户的输入
+    const { value: keyword } = this.keywordElem
+    // 发送请求前,通知App组件更新状态
+    this.props.updateAppState({ isFirst: false, isLoading: true })
+    // 发送网络请求
+    axios.get(`https://api.github.com/search/users?q=${keyword}`)
+      .then(
+        response => {
+          // 请求成功后，通知App组件更新状态
+          console.log(response.data);
+          this.props.updateAppState({isLoading: false, users: response.data.items})
+        },
+        error => {
+          // 请求失败后，通知App组件更新状态
+          console.log(error);
+          this.props.updateAppState({isLoading: false, err: error.message})
+        }
+      )
+  }
+}
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### List Component
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```jsx
+import React, { Component } from 'react'
+import list from './List.module.css'
+import picture from '../../img/Leslie.webp'
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+export default class List extends Component {
+  render() {
+    const { users, isFirst, isLoading, err } = this.props
+    if (isFirst) {
+      return (
+        <h2>Input username and search</h2>
+      )
+    } else if (isLoading) {
+      return (
+        <h2>Loading</h2>
+      )
+    } else if (err) {
+      return (
+        <h2>{err}</h2>
+      )
+    } else {
+      return (
+        <div className={list['list-container']}>
+          {
+            users.map((userItem) => {
+              return (
+                <div key={userItem.id} className={list.card}>
+                  <a href={userItem.html_url}>
+                    <img src={userItem.avatar_url} alt="avatar" />
+                  </a>
+                  <div>{userItem.login}</div>
+                </div>
+              )
+            })
+          }
+        </div>
+      )
+    }
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  }
+}
+```
