@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+# pubsub-js
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project aims to use pubsub-js in search user in github.
 
-## Available Scripts
+## What is pubsub-js
 
-In the project directory, you can run:
+**pubsub-js** is a popular implementation of the publish-subscribe pattern (pub/sub) which can be used in React apps to facilitate communication between components, especially those that aren't directly related.
 
-### `npm start`
+## How to install pubsub-js
+```bash
+npm install pubsub-js
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How to use pubsub-js in components
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Components that need to publish messages.
 
-### `npm test`
+```jsx
+import React, { Component } from 'react'
+import axios from 'axios'
+import PubSub from 'pubsub-js'
+import search from './Search.module.css'
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+export default class Search extends Component {
+  render() {
+    return (
+      <div className={search['search-container']}>
+        <h1>Search Users in Github</h1>
+        <div>
+          <input ref={cur => this.keywordElem = cur} type="text" placeholder='Enter User Name' />
+          <button onClick={this.search}>Search</button>
+        </div>
+      </div>
+    )
+  }
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  search = () => {
+    // 获取用户的输入
+    const { value: keyword } = this.keywordElem
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    // 发送请求前,通知List组件更新状态
+    PubSub.publish('list-info', { isFirst: false, isLoading: true })
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    // 发送网络请求
+    axios.get(`https://api.github.com/search/users?q=${keyword}`)
+      .then(
+        response => {
+          // 请求成功后，通知List组件更新状态
+          console.log(response.data);
+          PubSub.publish('list-info', { isLoading: false, users: response.data.items })
+        },
+        error => {
+          // 请求失败后，通知List组件更新状态
+          console.log(error);
+          PubSub.publish('list-info', { isLoading: false, err: error.message })
+        }
+      )
+  }
+}
+```
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Components that subscribe to messages
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```jsx
+import React, { Component } from 'react'
+import PubSub from 'pubsub-js'
+import list from './List.module.css'
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+export default class List extends Component {
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    /* 
+    Init state
+    The initial value of users is empty array 
+  */
+    state = {
+      users: [],
+      // 是否为第一次打开页面
+      isFirst: true,
+      // 是否处于加载中
+      isLoading: false,
+      // 存储请求相关的错误信息
+      err: '',
+    }
 
-## Learn More
+    componentDidMount(){
+      this.token = PubSub.subscribe('list-info', (msg, stateObj)=>{
+        this.setState(stateObj)
+      })
+    }
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    componentWillUnmount(){
+      PubSub.unsubscribe(this.token)
+    }
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  render() {
+    ...
+  }
+}
+```
