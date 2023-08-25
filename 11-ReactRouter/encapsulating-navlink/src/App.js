@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Title from './components/Title/Title'
 import Nav from './components/Nav/Nav'
 import Home from './pages/Home/Home'
@@ -16,8 +16,10 @@ export default class App extends Component {
           <Nav></Nav>
 
           {/* 注册路由 */}
+          <Switch>
             <Route path='/about' component={About}></Route>
             <Route path='/home' component={Home}></Route>
+          </Switch>
         </div>
       </div>
     )
