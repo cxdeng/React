@@ -59,6 +59,8 @@
 * 11-React Router
   - [Head First React Router](./11-ReactRouter/head-first-react-router/README.md)
   - [Routing Component](./11-ReactRouter/routing-component/README.md)
+  - [Encapsulating Nnavlink](./11-ReactRouter/encapsulating-navlink/README.md)
+  - [Nested Routing]()
    
 
   
