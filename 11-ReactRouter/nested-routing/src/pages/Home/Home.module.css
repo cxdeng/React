@@ -1,0 +1,12 @@
+.home-container {
+    flex-grow: 1;
+    padding-left: 30px;
+}
+
+.home-container hr {
+    margin: 0;
+}
+
+.defaultHome {
+    padding: 20px;
+}
