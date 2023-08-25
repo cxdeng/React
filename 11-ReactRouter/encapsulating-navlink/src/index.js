@@ -8,7 +8,7 @@ import App from './App'
 
 // 渲染App组件到页面
 ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter basename="/cxdeng">
         <App />
     </BrowserRouter>,
     document.querySelector('#root'))
