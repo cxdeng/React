@@ -24,7 +24,11 @@ export default class Message extends Component {
                             return (
                                 <li key={msgObj.id}>
                                     {/* 向路由组件传递params参数 */}
-                                    <Link to={`/home/message/detail/${msgObj.id}/${msgObj.title}`}>{msgObj.title}</Link>
+                                    {/* <Link to={`/home/message/detail/${msgObj.id}/${msgObj.title}`}>{msgObj.title}</Link> */}
+
+                                    {/* 向路由组件传递search参数 */}
+                                    <Link to={`/home/message/detail/?id=${msgObj.id}&title=${msgObj.title}`}>{msgObj.title}</Link>
+
                                 </li>
                             )
                         })
@@ -33,8 +37,11 @@ export default class Message extends Component {
 
                 <hr />
 
-                {/* 向路由组件传递params参数 */}
-                <Route path='/home/message/detail/:id/:title' component={Detail} />
+                {/* 声明接收params参数 */}
+                {/* <Route path='/home/message/detail/:id/:title' component={Detail} /> */}
+
+                {/* 声明接收search参数，无需声明接收 */}
+                <Route path='/home/message/detail' component={Detail} />
             </div>
         )
     }
