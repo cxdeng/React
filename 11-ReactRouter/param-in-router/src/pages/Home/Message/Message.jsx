@@ -30,7 +30,11 @@ export default class Message extends Component {
                                     {/* <Link to={`/home/message/detail?id=${msgObj.id}&title=${msgObj.title}`}>{msgObj.title}</Link> */}
 
                                     {/* 向路由组件传递state参数 */}
-                                    <Link to={{pathname: '/home/message/detail', state: {id: msgObj.id, title: msgObj.title}}}>{msgObj.title}</Link>
+                                    <Link to={{ pathname: '/home/message/detail', state: { id: msgObj.id, title: msgObj.title } }}>{msgObj.title}</Link>
+
+                                    <button onClick={this.pushView(msgObj.id, msgObj.title)}>Push to view</button>
+                                    <button onClick={this.replaceView(msgObj.id, msgObj.title)}>Replace to view</button>
+
                                 </li>
                             )
                         })
@@ -50,5 +54,37 @@ export default class Message extends Component {
 
             </div>
         )
+    }
+
+    /* 
+        编程式路由导航
+    */
+    replaceView = (id, title) => {
+        return () => {
+            // replace跳转 + params参数
+            // this.props.history.replace(`/home/message/detail/${id}/${title}`)
+
+            // replace跳转 + search参数
+            // this.props.history.replace(`/home/message/detail?id=${id}&title=${title}`)
+
+            // replace跳转 + sstate参数
+            this.props.history.replace('/home/message/detail', { id: id, title: title })
+
+        }
+    }
+
+    pushView = (id, title) => {
+        return () => {
+            // push跳转 + params参数
+            // this.props.history.push(`/home/message/detail/${id}/${title}`)
+
+            // push跳转 + search参数
+            // this.props.history.push(`/home/message/detail?id=${id}&title=${title}`)
+
+            // push跳转 + sstate参数
+            this.props.history.push('/home/message/detail', { id: id, title: title })
+
+
+        }
     }
 }
