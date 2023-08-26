@@ -52,6 +52,9 @@ export default class Message extends Component {
                 {/* 声明接收state参数，无需声明接收 */}
                 <Route path='/home/message/detail' component={Detail} />
 
+                <button onClick={this.back}>Backword</button>
+                <button onClick={this.forward}>Forword</button>
+
             </div>
         )
     }
@@ -83,8 +86,14 @@ export default class Message extends Component {
 
             // push跳转 + sstate参数
             this.props.history.push('/home/message/detail', { id: id, title: title })
-
-
         }
+    }
+
+    back = () => {
+        this.props.history.goBack()
+    }
+
+    forward = () => {
+        this.props.history.goForward()
     }
 }
