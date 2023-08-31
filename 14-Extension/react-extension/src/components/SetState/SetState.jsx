@@ -9,6 +9,7 @@ export default class SetState extends Component {
             <div>
                 <h1>当前求和为: {this.state.count}</h1>
                 <button onClick={this.add}>Click to add</button>
+                <h2>自动增长: </h2>
             </div>
         )
     }
