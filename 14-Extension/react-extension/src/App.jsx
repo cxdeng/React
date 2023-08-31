@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import './index.css'
 import SetState from './components/SetState/SetState'
 import Hooks from './components/Hooks/Hooks'
 import UseFragment from './components/UseFragment/UseFragment'
 import UseContextA from './components/UseContext/UseContextA'
-import './index.css'
 import Optimization from './components/Optimization/Optimization'
+import RenderProps from './components/RenderProps/RenderProps'
 
 export default class App extends Component {
     render() {
@@ -14,7 +15,8 @@ export default class App extends Component {
                 {/* <Hooks /> */}
                 {/* <UseFragment/> */}
                 {/* <UseContextA /> */}
-                <Optimization />
+                {/* <Optimization /> */}
+                <RenderProps />
             </div>
         )
     }

@@ -1,0 +1,29 @@
+.parent {
+    background-color: chocolate;
+    padding: 10px;
+}
+
+.a {
+    background-color: deepskyblue;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.b {
+    background-color: turquoise;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.c {
+    background-color: grey;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+
+.d {
+    background-color: antiquewhite;
+    padding: 10px;
+    margin-top: 10px;
+}
