@@ -1,0 +1,7 @@
+.about-container {
+    flex-grow: 1;
+}
+
+.about-container h1 {
+    margin-left: 30px;
+}
